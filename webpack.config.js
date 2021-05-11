@@ -49,6 +49,7 @@ module.exports = {
                 ],
         }),
     ],
+    devtool: isProd ? false : 'source-map',
     module: {
         rules: [
             {
@@ -80,6 +81,11 @@ module.exports = {
                 ],
             },
             {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: ['babel-loader'],
+            },
+            {
                 test: /\.(?:|gif|png|jpg|jpeg|svg)$/,
                 use: [{
                     loader: 'file-loader',
@@ -88,6 +94,15 @@ module.exports = {
                     }
                 }],
             },
+            {
+                test: /\.(?:|woff2)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: `./fonts/${filename('[ext]')}`
+                    }
+                }],
+            }
         ]
     }
 };

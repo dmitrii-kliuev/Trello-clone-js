@@ -3,6 +3,8 @@ import '../index.html';
 import 'normalize.css';
 import '../scss/main.scss';
 
+const a = 5;
+
 function component() {
     const element = document.createElement('div');
 
