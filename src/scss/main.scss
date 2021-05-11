@@ -1,0 +1,77 @@
+@import '~normalize.css';
+
+body {
+  background: url(../img/1.svg);
+}
+
+.mainWrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 248px);
+  grid-gap: 17px;
+}
+
+.column {
+  background-color: #EBECF0;
+  border-radius: 7px;
+  padding: 8px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 5px;
+    font-weight: bold;
+  }
+
+  &__title {
+    margin-left: 10px;
+    font-size: 14px;
+  }
+
+  &__menu {
+    display: flex;
+    width: 20px;
+    justify-content: space-between;
+    margin-left: auto;
+  }
+}
+
+.menu__circle {
+  width: 5px;
+  height: 5px;
+  background-color: gray;
+  border-radius: 50%;
+}
+
+.task {
+  background-color: white;
+  box-shadow: 0 2px 2px gray;
+  padding: 5px;
+  font-size: 14px;
+  margin-top: 7px;
+
+  &List {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-weight: bold;
+    border-bottom: 1px solid lightgray;
+  }
+
+  &__executor {
+    text-align: right;
+  }
+
+  &Counter {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #d4dbde;
+  }
+}

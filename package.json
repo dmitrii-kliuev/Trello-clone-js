@@ -4,10 +4,9 @@
   "description": "",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
-    "start": "webpack serve --mode development"
+    "start": "cross-env NODE_ENV=development webpack serve --mode development"
   },
   "repository": {
     "type": "git",
@@ -22,14 +21,19 @@
   "homepage": "https://github.com/dmitrii-kliuev-1989/Trello-clone-js#readme",
   "dependencies": {
     "lodash": "^4.17.21",
-    "normalize": "^0.3.1"
+    "normalize.css": "^8.0.1"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "copy-webpack-plugin": "^8.1.1",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.4",
+    "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.1",
     "mini-css-extract-plugin": "^1.6.0",
+    "node-sass": "^6.0.0",
+    "sass-loader": "^11.1.0",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2"
   }
