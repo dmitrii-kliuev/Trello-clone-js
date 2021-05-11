@@ -2,7 +2,6 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -16,7 +15,7 @@ module.exports = {
     output: {
         filename: `./js/${filename('js')}`,
         path: path.resolve(__dirname, 'app'),
-        publicPath: ''
+        assetModuleFilename: "assets/[hash][ext]"
     },
     devServer: {
         historyApiFallback: true,
@@ -37,17 +36,7 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: `./css/${filename('css')}`,
         }),
-        new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns:
-                [
-                    {from: path.resolve(__dirname, 'src/assets'), to: path.resolve(__dirname, 'app')},
-                    // {
-                    //     from: path.resolve(__dirname, 'src/img'),
-                    //     to: path.resolve(__dirname, 'app/img')
-                    // }
-                ],
-        }),
+        new CleanWebpackPlugin()
     ],
     devtool: isProd ? false : 'source-map',
     module: {
@@ -86,22 +75,8 @@ module.exports = {
                 use: ['babel-loader'],
             },
             {
-                test: /\.(?:|gif|png|jpg|jpeg|svg)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        name: `./img/${filename('[ext]')}`
-                    }
-                }],
-            },
-            {
-                test: /\.(?:|woff2)$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        name: `./fonts/${filename('[ext]')}`
-                    }
-                }],
+                test: /\.(gif|png|jpg|jpeg|svg)$/i,
+                type: "asset/resource"
             }
         ]
     }

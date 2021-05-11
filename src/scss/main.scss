@@ -1,19 +1,4 @@
-@import "mixins";
-@import "fonts";
-@import "vendor";
-@import "vars";
-@import "settings";
-
-body {
-  background-color: red;
-  background-image: url("../img/2.jpg");
-  color: red;
-}
-
-
-body {
-  background: url(../img/1.svg);
-}
+@import "~normalize.css";
 
 .mainWrapper {
   display: grid;
