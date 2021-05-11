@@ -11,11 +11,14 @@ const filename = (ext) => isDev ? `[name].${ext}` : `[name].[contenthash].${ext}
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
-    entry: './js/main.js',
+    entry: './ts/index.ts',
     output: {
         filename: `./js/${filename('js')}`,
         path: path.resolve(__dirname, 'app'),
         assetModuleFilename: "assets/[hash][ext]"
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
     },
     devServer: {
         historyApiFallback: true,
@@ -77,6 +80,11 @@ module.exports = {
             {
                 test: /\.(gif|png|jpg|jpeg|svg)$/i,
                 type: "asset/resource"
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
             }
         ]
     }
