@@ -1,15 +1,17 @@
 @import "~normalize.css";
+@import "../../node_modules/picnic/picnic.min.css";
 
 .mainWrapper {
-  display: grid;
-  grid-template-columns: repeat(5, 248px);
-  grid-gap: 17px;
+  display: flex;
 }
 
 .column {
   background-color: #EBECF0;
   border-radius: 7px;
   padding: 8px;
+  margin: 0 17px 17px 0;
+  min-width: 248px;
+  max-width: 248px;
 
   &__header {
     display: flex;
@@ -24,9 +26,8 @@
   }
 
   &__menu {
-    display: flex;
-    width: 20px;
-    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
     margin-left: auto;
   }
 }
@@ -52,7 +53,6 @@
 
   &__title {
     font-weight: bold;
-    border-bottom: 1px solid lightgray;
   }
 
   &__executor {
@@ -70,4 +70,32 @@
     font-weight: bold;
     background-color: #d4dbde;
   }
+}
+
+.addTask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  margin-top: 10px;
+  border: none;
+  background-color: transparent;
+  border-radius: 8px;
+  color: #969FAE;
+  user-select: none;
+
+  &:hover {
+    background-color: lightgray;
+    color: #172b4d;
+  }
+
+  & i {
+    margin-right: 10px;
+  }
+}
+
+.modalButtons {
+  display: flex !important;
+  align-items: flex-end;
+  justify-content: flex-end;
 }

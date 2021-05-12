@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/dmitrii-kliuev-1989/Trello-clone-js#readme",
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "picnic": "^6.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
