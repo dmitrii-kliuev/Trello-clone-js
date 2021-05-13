@@ -1,16 +1,18 @@
+import {Executor} from "./executor";
+
 interface ITask {
     title: string;
     description: string;
-    executor: string;
+    executor: Executor;
 }
 
 export class Task {
     id: number;
     title: string;
     description: string;
-    executor: string;
+    executor: Executor;
 
-    constructor(options: ITask = {title: 'UNSET', description: 'UNSET', executor: 'UNSET'}) {
+    constructor(options: ITask = {title: 'UNSET', description: 'UNSET', executor: new Executor('UNSET', 'UNSET') }) {
         const {title, description, executor} = options;
 
         this.title = title;
@@ -32,16 +34,13 @@ export function addTask(column: string, task: Task): void {
 
 export function createTaskColumnElementHtml(columnName: string): string {
     const columnTasks = tasks[columnName];
-    const tasksHTML = columnTasks.map(t => createTaskElementHTML(t)).join('');
+    const tasksHTML = columnTasks.map(task => createTaskElementHTML(task)).join('');
 
     return `
-    <div class="column" id="${columnName}">
+    <div class="column" id="${columnName}" data-columnName="${columnName}">
         <div class="column__header">
             <div class="taskCounter">${columnTasks.length}</div>
             <div class="column__title">${columnName}</div>
-            <div class="column__menu">
-                <i class="fas fa-plus"></i>
-            </div>
         </div>
         <div class="taskList">${tasksHTML}</div>
         <label for="modal_1" class="addTask">
@@ -54,11 +53,11 @@ export function createTaskColumnElementHtml(columnName: string): string {
 
 export function createTaskElementHTML(task: Task): string {
     return `
-        <div class="task" data-id="${task.id}">
+        <label for="modal_1" class="task editTask" data-taskid="${task.id}">
             <div class="task__title">${task.title}</div>
             <div class="task__description">${task.description}</div>
-            <div class="task__executor">${task.executor}</div>
-        </div>
+            <div class="task__executor">${task.executor.fullName}</div>
+        </label>
         `;
 }
 

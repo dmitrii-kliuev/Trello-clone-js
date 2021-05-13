@@ -36,21 +36,20 @@
                 </div>
                 <div class="task__executor">Bob Marks</div>
             </div>
-            <div class="task">
-                <div class="task__title">Lorem ipsum dolor</div>
-                <div class="task__description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis
-                    repellat tempora?
+                <div class="task">
+                    <div class="task__title">Lorem ipsum dolor</div>
+                    <div class="task__description">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis
+                        repellat tempora?
+                    </div>
+                    <div class="task__executor">Bob Marks</div>
                 </div>
-                <div class="task__executor">Bob Marks</div>
-            </div>
         </div>
         <label for="modal_1" class="addTask">
             <i class="fas fa-plus"></i>
             Add another task...
         </label>
     </div>
-
 
 
     <!--    <div class="column">-->
@@ -186,10 +185,10 @@
     <label for="modal_1" class="overlay"></label>
     <article>
         <section class="content">
-            <input id="columnField" name="column" type="text" hidden>
-            <input name="title" type="text" placeholder="Title">
-            <input name="description" type="text" placeholder="Description">
-            <select name="executor">
+            <input id="columnField" name="column" type="text" hidden required>
+            <input name="title" type="text" placeholder="Title" required>
+            <input name="description" type="text" placeholder="Description" required>
+            <select class="executor" required>
                 <option disabled selected value> -- select an option --</option>
                 <option value="1">Option 1</option>
                 <option value="2">Option 2</option>
@@ -197,7 +196,8 @@
             </select>
         </section>
         <footer class="modalButtons">
-            <label for="modal_1" class="btnAddNewTask button success">
+            <div class="invalidFormMessage">Fill in all fields please</div>
+            <label for="modal_1" class="btnAddUpdateTask button success">
                 Add
             </label>
         </footer>

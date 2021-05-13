@@ -98,4 +98,24 @@
   display: flex !important;
   align-items: flex-end;
   justify-content: flex-end;
+  flex-direction: column;
+}
+
+.invalidFormMessage {
+  color: red;
+  visibility: hidden;
+}
+
+.content input, .executor {
+  margin-top: 10px;
+}
+
+.inputInvalid{
+  border-color: red;
+  box-shadow: none;
+}
+
+input:valid {
+  border-color: green;
+  box-shadow: none;
 }
