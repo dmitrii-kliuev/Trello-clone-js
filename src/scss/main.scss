@@ -49,6 +49,7 @@
   &List {
     display: flex;
     flex-direction: column;
+    min-height: 40px;
   }
 
   &__title {
@@ -94,14 +95,26 @@
   }
 }
 
-.modalButtons {
+.modalFooter {
   display: flex !important;
-  align-items: flex-end;
-  justify-content: flex-end;
   flex-direction: column;
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__btnRemove {
+    display: none;
+  }
+
+  &__btnAdd {
+
+  }
 }
 
 .invalidFormMessage {
+  margin-left: auto;
   color: red;
   visibility: hidden;
 }

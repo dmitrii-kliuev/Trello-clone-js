@@ -1,21 +1,21 @@
 import '../index.html';
 import '../scss/main.scss';
-import {addTask, createTaskColumnElementHtml, Task, tasks} from "./task";
+import {addTask, createTaskColumnElementHtml, getTaskById, Task, tasks} from "./task";
 import {fillMockData} from "./mockData";
 import {fillExecutorList, getExecutorById} from "./executor";
+import {addDragAndDrop} from "../js/main";
 
 const visitedClass = 'visited';
 const addMode = 'addMode';
 const editMode = 'editMode';
 
 const mainWrapperElement = document.querySelector('.mainWrapper');
-const addNewTaskForm = document.getElementById('addNewTaskForm') as HTMLFormElement;
-const btnAddUpdateTask = document.querySelector('.btnAddUpdateTask');
+const taskForm = document.getElementById('taskForm') as HTMLFormElement;
+const btnRemove = document.querySelector('.modalFooter__btnRemove') as HTMLLabelElement;
+const btnAddUpdateTask = document.querySelector('.btnAddUpdateTask') as HTMLLabelElement;
 const formContent = document.querySelector('.content');
 
 const invalidFormMessage = document.querySelector('.invalidFormMessage') as HTMLDivElement;
-
-const columnField = document.getElementById('columnField') as HTMLInputElement;
 
 const titleElement = document.getElementsByName('title')[0] as HTMLInputElement;
 const descriptionElement = document.getElementsByName('description')[0] as HTMLInputElement;
@@ -39,13 +39,15 @@ document.addEventListener("DOMContentLoaded", function () {
     executorElement.addEventListener('click', () => {
         executorElement.classList.toggle(visitedClass, true)
     })
+
+    btnRemove.addEventListener('click', removeTaskEventHandler)
 });
 
 function addNewTaskEventHandler(event: any) {
     const executorId = (document.querySelector('.executor') as HTMLOptionElement).value;
 
-    const formData = new FormData(addNewTaskForm);
-    const columnName = columnField.textContent;
+    const formData = new FormData(taskForm);
+    const columnName = taskForm.dataset.columnName;
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
     const executor = getExecutorById(Number(executorId))
@@ -56,7 +58,7 @@ function addNewTaskEventHandler(event: any) {
         return;
     }
 
-    if (addNewTaskForm.dataset.mode === addMode) {
+    if (taskForm.dataset.mode === addMode) {
         addTask(columnName,
             new Task({
                 title: title,
@@ -64,12 +66,11 @@ function addNewTaskEventHandler(event: any) {
                 executor: executor
             }));
 
-        addNewTaskForm.dataset.mode = '';
+        taskForm.dataset.mode = '';
     }
 
-    if (addNewTaskForm.dataset.mode === editMode) {
-        console.log('HERE', addNewTaskForm.dataset.taskid)
-        const editedTask = tasks[columnName].find(t => t.id === Number(addNewTaskForm.dataset.taskid))
+    if (taskForm.dataset.mode === editMode) {
+        const editedTask = getTaskById(columnName, Number(taskForm.dataset.taskid))
         editedTask.title = title;
         editedTask.description = description;
         editedTask.executor = executor;
@@ -81,7 +82,7 @@ function addNewTaskEventHandler(event: any) {
 export function checkInput() {
     const executorId = executorElement.value;
 
-    const formData = new FormData(addNewTaskForm);
+    const formData = new FormData(taskForm);
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
 
@@ -95,12 +96,6 @@ export function checkInput() {
     } else {
         invalidFormMessage.style.visibility = 'hidden';
         return true;
-    }
-}
-
-function setInvalid(element: any, isInvalid: boolean) {
-    if (element.classList.contains(visitedClass)) {
-        element.classList.toggle('inputInvalid', isInvalid)
     }
 }
 
@@ -118,25 +113,42 @@ function mainWrapperElementClickHandler(event: any) {
 
     cleanForm();
 
-    const columnField = document.querySelector<HTMLInputElement>('#columnField');
-    const columnName = columnElement.dataset.columnname;
-    columnField.textContent = columnName;
+    const columnName = columnElement?.dataset.columnname;
+    taskForm.dataset.columnName = columnName;
 
     if (isAdd) {
-        addNewTaskForm.dataset.mode = addMode;
+        taskForm.dataset.mode = addMode;
+        delete taskForm.dataset.taskid;
+        btnRemove.style.display = 'none';
         btnAddUpdateTask.textContent = 'Add';
     }
 
     if (isEdit) {
-        addNewTaskForm.dataset.mode = editMode;
-        addNewTaskForm.dataset.taskid = taskElement.dataset.taskid;
+        taskForm.dataset.mode = editMode;
+        taskForm.dataset.taskid = taskElement.dataset.taskid;
 
         const selectedTask = tasks[columnName].find(t => t.id === Number(taskElement.dataset.taskid));
         titleElement.value = selectedTask.title;
         descriptionElement.value = selectedTask.description;
         executorElement.value = String(selectedTask.executor.id);
 
+        btnRemove.style.display = 'block';
         btnAddUpdateTask.textContent = 'Save';
+    }
+}
+
+function removeTaskEventHandler(event: any) {
+    const {target} = event;
+
+    const columnName = taskForm.dataset.columnName;
+    console.log(columnName, taskForm.dataset.taskid);
+
+    const taskIndex = tasks[columnName].findIndex(c => c.id === Number(taskForm.dataset.taskid));
+    console.log(taskIndex);
+    tasks[columnName].splice(taskIndex, 1);
+
+    if (window.confirm('Sure?')) {
+        renderItemList();
     }
 }
 
@@ -163,10 +175,18 @@ function renderItemList(): void {
             .join('');
 }
 
+function setInvalid(element: any, isInvalid: boolean) {
+    if (element.classList.contains(visitedClass)) {
+        element.classList.toggle('inputInvalid', isInvalid)
+    }
+}
+
 function initApplication() {
     fillMockData();
     renderItemList();
     fillExecutorList();
+
+    addDragAndDrop()
 }
 
 initApplication();

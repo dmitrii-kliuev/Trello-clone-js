@@ -8,6 +8,8 @@
     <title>Trello</title>
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
     <script src="https://kit.fontawesome.com/045b1d452a.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <div class="mainWrapper">
@@ -36,156 +38,27 @@
                 </div>
                 <div class="task__executor">Bob Marks</div>
             </div>
-                <div class="task">
-                    <div class="task__title">Lorem ipsum dolor</div>
-                    <div class="task__description">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis
-                        repellat tempora?
-                    </div>
-                    <div class="task__executor">Bob Marks</div>
+            <div class="task">
+                <div class="task__title">Lorem ipsum dolor</div>
+                <div class="task__description">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis
+                    repellat tempora?
                 </div>
+                <div class="task__executor">Bob Marks</div>
+            </div>
         </div>
         <label for="modal_1" class="addTask">
             <i class="fas fa-plus"></i>
-            Add another task...
+            Add task...
         </label>
     </div>
-
-
-    <!--    <div class="column">-->
-    <!--        <div class="column__header">-->
-    <!--            <div class="taskCounter">1</div>-->
-    <!--            <div class="column__title">todo</div>-->
-    <!--            <div class="column__menu">-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="taskList">-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-
-
-    <!--    <div class="column">-->
-    <!--        <div class="column__header">-->
-    <!--            <div class="taskCounter">2</div>-->
-    <!--            <div class="column__title">progress</div>-->
-    <!--            <div class="column__menu">-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="taskList">-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--    <div class="column">-->
-    <!--        <div class="column__header">-->
-    <!--            <div class="taskCounter">4</div>-->
-    <!--            <div class="column__title">review</div>-->
-    <!--            <div class="column__menu">-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="taskList">-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--    <div class="column">-->
-    <!--        <div class="column__header">-->
-    <!--            <div class="taskCounter">2</div>-->
-    <!--            <div class="column__title">done</div>-->
-    <!--            <div class="column__menu">-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--                <div class="menu__circle"></div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="taskList">-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--            <div class="task">-->
-    <!--                <div class="task__title">Lorem ipsum dolor</div>-->
-    <!--                <div class="task__description">-->
-    <!--                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis-->
-    <!--                    repellat tempora?-->
-    <!--                </div>-->
-    <!--                <div class="task__executor">Bob Marks</div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
 </div>
 
-<form id="addNewTaskForm" class="modal">
+<form id="taskForm" class="modal">
     <input id="modal_1" type="checkbox"/>
     <label for="modal_1" class="overlay"></label>
     <article>
         <section class="content">
-            <input id="columnField" name="column" type="text" hidden required>
             <input name="title" type="text" placeholder="Title" required>
             <input name="description" type="text" placeholder="Description" required>
             <select class="executor" required>
@@ -195,11 +68,20 @@
                 <option value="3">Option 3</option>
             </select>
         </section>
-        <footer class="modalButtons">
+        <footer class="modalFooter">
             <div class="invalidFormMessage">Fill in all fields please</div>
-            <label for="modal_1" class="btnAddUpdateTask button success">
-                Add
-            </label>
+            <div class="modalFooter__buttons">
+                <div>
+                    <label for="modal_1" class="button dangerous modalFooter__btnRemove">
+                        Remove
+                    </label>
+                </div>
+                <div>
+                    <label for="modal_1" class="btnAddUpdateTask button success button__btnAdd">
+                        Add
+                    </label>
+                </div>
+            </div>
         </footer>
     </article>
 </form>

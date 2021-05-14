@@ -32,23 +32,31 @@ export function addTask(column: string, task: Task): void {
     tasks[column].push(task);
 }
 
+export function getTaskById(columnName:string, taskId: number): Task {
+    return tasks[columnName].find(t => t.id === taskId)
+}
+
 export function createTaskColumnElementHtml(columnName: string): string {
     const columnTasks = tasks[columnName];
     const tasksHTML = columnTasks.map(task => createTaskElementHTML(task)).join('');
 
     return `
-    <div class="column" id="${columnName}" data-columnName="${columnName}">
+    <div class="column" data-columnName="${columnName}">
         <div class="column__header">
             <div class="taskCounter">${columnTasks.length}</div>
             <div class="column__title">${columnName}</div>
         </div>
-        <div class="taskList">${tasksHTML}</div>
+        <div class="taskList connectedSortable">${tasksHTML}</div>
         <label for="modal_1" class="addTask">
             <i class="fas fa-plus"></i>
-            Add another task...
+            Add task...
         </label>
     </div>
     `;
+}
+
+export function AAAABBBB(){
+    console.log('AAAABBBB')
 }
 
 export function createTaskElementHTML(task: Task): string {

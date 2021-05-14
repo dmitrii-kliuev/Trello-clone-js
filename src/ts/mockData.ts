@@ -13,10 +13,16 @@ function fillTasks() {
         executor: executorList[0]
     }));
 
-    addTask('in-box', new Task({executor: executorList[1], description: 'do do do', title: 'mega Do 1'}));
-    addTask('in-box', new Task({executor: executorList[2], description: 'do do do', title: 'mega Do 2'}));
-    addTask('todo', new Task({executor: executorList[0], description: 'do do do', title: 'mega Do 3'}));
-    addTask('todo', new Task({executor: executorList[1], description: 'do do do', title: 'mega Do 4'}));
+    const mockText = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti impedit, incidunt iure quis repellat tempora?';
+
+    addTask('in-box', new Task({executor: executorList[1], description: mockText, title: 'mega Do 1'}));
+    addTask('in-box', new Task({executor: executorList[2], description: mockText, title: 'mega Do 2'}));
+    addTask('todo', new Task({executor: executorList[0], description: mockText, title: 'mega Do 3'}));
+    addTask('todo', new Task({executor: executorList[1], description: mockText, title: 'mega Do 4'}));
+
+    addTask('in-progress', new Task({executor: executorList[0], description: mockText, title: 'mega Do 4'}));
+    addTask('review', new Task({executor: executorList[1], description: mockText, title: 'mega Do 4'}));
+    addTask('done', new Task({executor: executorList[2], description: mockText, title: 'mega Do 4'}));
 }
 
 function fillExecutors() {
