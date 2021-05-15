@@ -20,9 +20,9 @@ function fillTasks() {
     addTask('todo', new Task({executor: executorList[0], description: mockText, title: 'mega Do 3'}));
     addTask('todo', new Task({executor: executorList[1], description: mockText, title: 'mega Do 4'}));
 
-    addTask('in-progress', new Task({executor: executorList[0], description: mockText, title: 'mega Do 4'}));
-    addTask('review', new Task({executor: executorList[1], description: mockText, title: 'mega Do 4'}));
-    addTask('done', new Task({executor: executorList[2], description: mockText, title: 'mega Do 4'}));
+    addTask('in-progress', new Task({executor: executorList[0], description: mockText, title: 'mega Do 5'}));
+    addTask('review', new Task({executor: executorList[1], description: mockText, title: 'mega Do 6'}));
+    addTask('done', new Task({executor: executorList[2], description: mockText, title: 'mega Do 7'}));
 }
 
 function fillExecutors() {

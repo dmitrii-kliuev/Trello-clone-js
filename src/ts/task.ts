@@ -12,7 +12,7 @@ export class Task {
     description: string;
     executor: Executor;
 
-    constructor(options: ITask = {title: 'UNSET', description: 'UNSET', executor: new Executor('UNSET', 'UNSET') }) {
+    constructor(options: ITask = {title: 'UNSET', description: 'UNSET', executor: new Executor('UNSET', 'UNSET')}) {
         const {title, description, executor} = options;
 
         this.title = title;
@@ -32,7 +32,7 @@ export function addTask(column: string, task: Task): void {
     tasks[column].push(task);
 }
 
-export function getTaskById(columnName:string, taskId: number): Task {
+export function getTaskById(columnName: string, taskId: number): Task {
     return tasks[columnName].find(t => t.id === taskId)
 }
 
@@ -53,10 +53,6 @@ export function createTaskColumnElementHtml(columnName: string): string {
         </label>
     </div>
     `;
-}
-
-export function AAAABBBB(){
-    console.log('AAAABBBB')
 }
 
 export function createTaskElementHTML(task: Task): string {

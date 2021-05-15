@@ -137,9 +137,7 @@ function mainWrapperElementClickHandler(event: any) {
     }
 }
 
-function removeTaskEventHandler(event: any) {
-    const {target} = event;
-
+function removeTaskEventHandler() {
     const columnName = taskForm.dataset.columnName;
     console.log(columnName, taskForm.dataset.taskid);
 
@@ -167,12 +165,14 @@ function cleanForm() {
     invalidFormMessage.style.visibility = 'hidden';
 }
 
-function renderItemList(): void {
+export function renderItemList(): void {
     mainWrapperElement.innerHTML =
         Object
             .keys(tasks)
             .map(columnName => createTaskColumnElementHtml(columnName))
             .join('');
+
+    addDragAndDrop();
 }
 
 function setInvalid(element: any, isInvalid: boolean) {
@@ -185,8 +185,6 @@ function initApplication() {
     fillMockData();
     renderItemList();
     fillExecutorList();
-
-    addDragAndDrop()
 }
 
 initApplication();
