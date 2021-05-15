@@ -14,7 +14,7 @@ module.exports = {
     entry: './ts/index.ts',
     output: {
         filename: `./js/${filename('js')}`,
-        path: path.resolve(__dirname, 'app'),
+        path: path.resolve(__dirname, 'dist'),
         assetModuleFilename: "assets/[hash][ext]"
     },
     resolve: {
@@ -22,7 +22,7 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        contentBase: path.resolve(__dirname, 'app'),
+        contentBase: path.resolve(__dirname, 'dist'),
         open: true,
         compress: true,
         hot: true,

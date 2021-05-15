@@ -1,4 +1,4 @@
-import {tasks} from "../ts/task";
+import {getTaskById, tasks} from "../ts/task";
 import {refresh} from "../ts";
 
 export function addDragAndDrop() {
@@ -10,11 +10,10 @@ export function addDragAndDrop() {
                 const item = ui.item[0];
                 const taskId = item.dataset.taskid
 
-                const column = item.closest('.column')
-                const newColumn = column.dataset.columnname;
+                const columnElement = item.closest('.column')
+                const newColumn = columnElement.dataset.columnname;
 
-                const currentTaskList = item.parentNode;
-                const tasksArr = Array.from(currentTaskList.children)
+                const tasksArr = Array.from(item.parentNode.children)
                 const newIndex = tasksArr.findIndex(c => c.dataset.taskid === taskId)
 
                 let oldIndex;
@@ -27,7 +26,7 @@ export function addDragAndDrop() {
                     }
                 }
 
-                const task = tasks[oldColumn].find(task => task.id === Number(taskId))
+                const task = getTaskById(oldColumn, Number(taskId))
                 tasks[oldColumn].splice(oldIndex, 1);
                 tasks[newColumn].splice(newIndex, 0, task)
 

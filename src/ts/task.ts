@@ -6,6 +6,10 @@ interface ITask {
     executor: Executor;
 }
 
+export interface ITasks {
+    [key: string]: Task[];
+}
+
 export class Task {
     id: number;
     title: string;
@@ -24,7 +28,7 @@ export class Task {
 
 export const tasks: ITasks = {};
 
-export function addTask(column: string, task: Task): void {
+export function addTask(column: string, task: Task) {
     if (!tasks[column]) {
         tasks[column] = [];
     }
@@ -32,18 +36,23 @@ export function addTask(column: string, task: Task): void {
     tasks[column].push(task);
 }
 
+export function removeTask(column: string, taskId: number) {
+    const taskIndex = tasks[column].findIndex(c => c.id === taskId);
+    tasks[column].splice(taskIndex, 1);
+}
+
 export function getTaskById(columnName: string, taskId: number): Task {
     return tasks[columnName].find(t => t.id === taskId)
 }
 
 export function createTaskColumnElementHtml(columnName: string): string {
-    const columnTasks = tasks[columnName];
-    const tasksHTML = columnTasks.map(task => createTaskElementHTML(task)).join('');
+    const tasksByColumn = tasks[columnName];
+    const tasksHTML = tasksByColumn.map(task => createTaskElementHTML(task)).join('');
 
     return `
     <div class="column" data-columnName="${columnName}">
         <div class="column__header">
-            <div class="taskCounter">${columnTasks.length}</div>
+            <div class="taskCounter">${tasksByColumn.length}</div>
             <div class="column__title">${columnName}</div>
         </div>
         <div class="taskList connectedSortable">${tasksHTML}</div>
@@ -63,8 +72,4 @@ export function createTaskElementHTML(task: Task): string {
             <div class="task__executor">${task.executor.fullName}</div>
         </label>
         `;
-}
-
-export interface ITasks {
-    [key: string]: Task[];
 }

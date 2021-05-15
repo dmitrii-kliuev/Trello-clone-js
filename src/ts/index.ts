@@ -1,33 +1,37 @@
 import '../index.html';
 import '../scss/main.scss';
-import {addTask, createTaskColumnElementHtml, getTaskById, Task, tasks} from "./task";
+import {addTask, createTaskColumnElementHtml, getTaskById, removeTask, Task, tasks} from "./task";
 import {fillMockData} from "./mockData";
 import {fillExecutorList, getExecutorById} from "./executor";
 import {addDragAndDrop} from "../js/main";
 import {saveTasksToStorage} from "./storage";
 
 const visitedClass = 'visited';
-const addMode = 'addMode';
-const editMode = 'editMode';
+
+enum Mode {
+    Add = 'addMode',
+    Edit = 'editMode'
+}
 
 const mainWrapperElement = document.querySelector('.mainWrapper');
-const taskForm = document.getElementById('taskForm') as HTMLFormElement;
-const btnRemove = document.querySelector('.modalFooter__btnRemove') as HTMLLabelElement;
-const btnAddUpdateTask = document.querySelector('.btnAddUpdateTask') as HTMLLabelElement;
-const formContent = document.querySelector('.content');
+const taskFormElement = document.getElementById('taskForm') as HTMLFormElement;
+const btnRemoveElement = document.querySelector('.modalFooter__btnRemove') as HTMLLabelElement;
+const btnAddUpdateElement = document.querySelector('.btnAddUpdateTask') as HTMLLabelElement;
 
-const invalidFormMessage = document.querySelector('.invalidFormMessage') as HTMLDivElement;
+const invalidFormMessageElement = document.querySelector('.invalidFormMessage') as HTMLDivElement;
 
 const titleElement = document.getElementsByName('title')[0] as HTMLInputElement;
 const descriptionElement = document.getElementsByName('description')[0] as HTMLInputElement;
 const executorElement = document.querySelector('.executor') as HTMLSelectElement;
 
-mainWrapperElement.addEventListener('click', mainWrapperElementClickHandler)
 
 document.addEventListener("DOMContentLoaded", function () {
-    btnAddUpdateTask.addEventListener('click', addNewTaskEventHandler)
+    mainWrapperElement.addEventListener('click', mainWrapperElementClickHandler)
 
-    formContent.addEventListener('focusout', checkInput);
+    btnAddUpdateElement.addEventListener('click', btnAddUpdateClickHandler)
+    btnRemoveElement.addEventListener('click', btnRemoveClickHandler)
+
+    taskFormElement.addEventListener('focusout', checkInputHandler);
 
     titleElement.addEventListener('click', () => {
         titleElement.classList.toggle(visitedClass, true)
@@ -39,66 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     executorElement.addEventListener('click', () => {
         executorElement.classList.toggle(visitedClass, true)
-    })
-
-    btnRemove.addEventListener('click', removeTaskEventHandler)
+    });
 });
-
-function addNewTaskEventHandler(event: any) {
-    const executorId = (document.querySelector('.executor') as HTMLOptionElement).value;
-
-    const formData = new FormData(taskForm);
-    const columnName = taskForm.dataset.columnName;
-    const title = formData.get('title') as string;
-    const description = formData.get('description') as string;
-    const executor = getExecutorById(Number(executorId))
-
-    if (!checkInput()) {
-        event.stopPropagation();
-        event.preventDefault();
-        return;
-    }
-
-    if (taskForm.dataset.mode === addMode) {
-        addTask(columnName,
-            new Task({
-                title: title,
-                description: description,
-                executor: executor
-            }));
-
-        taskForm.dataset.mode = '';
-    }
-
-    if (taskForm.dataset.mode === editMode) {
-        const editedTask = getTaskById(columnName, Number(taskForm.dataset.taskid))
-        editedTask.title = title;
-        editedTask.description = description;
-        editedTask.executor = executor;
-    }
-
-    refresh();
-}
-
-export function checkInput() {
-    const executorId = executorElement.value;
-
-    const formData = new FormData(taskForm);
-    const title = formData.get('title') as string;
-    const description = formData.get('description') as string;
-
-    setInvalid(titleElement, !title);
-    setInvalid(descriptionElement, !description);
-    setInvalid(executorElement, !executorId);
-
-    if (!title || !description || !executorId) {
-        invalidFormMessage.style.visibility = 'visible';
-        return false;
-    } else {
-        invalidFormMessage.style.visibility = 'hidden';
-        return true;
-    }
-}
 
 function mainWrapperElementClickHandler(event: any) {
     event.stopPropagation();
@@ -112,46 +58,100 @@ function mainWrapperElementClickHandler(event: any) {
     const isEdit = taskElement?.classList.contains('editTask');
     const columnElement = target.closest('.column');
 
-    cleanForm();
+    cleanTaskForm();
 
     const columnName = columnElement?.dataset.columnname;
-    taskForm.dataset.columnName = columnName;
+    taskFormElement.dataset.columnName = columnName;
 
     if (isAdd) {
-        taskForm.dataset.mode = addMode;
-        delete taskForm.dataset.taskid;
-        btnRemove.style.display = 'none';
-        btnAddUpdateTask.textContent = 'Add';
+        taskFormElement.dataset.mode = Mode.Add;
+        btnRemoveElement.style.display = 'none';
+        btnAddUpdateElement.textContent = 'Add';
     }
 
     if (isEdit) {
-        taskForm.dataset.mode = editMode;
-        taskForm.dataset.taskid = taskElement.dataset.taskid;
+        taskFormElement.dataset.mode = Mode.Edit;
+        taskFormElement.dataset.taskid = taskElement.dataset.taskid;
 
-        const selectedTask = tasks[columnName].find(t => t.id === Number(taskElement.dataset.taskid));
+        const selectedTask = getTaskById(columnName, Number(taskElement.dataset.taskid));
         titleElement.value = selectedTask.title;
         descriptionElement.value = selectedTask.description;
         executorElement.value = String(selectedTask.executor.id);
 
-        btnRemove.style.display = 'block';
-        btnAddUpdateTask.textContent = 'Save';
+        btnRemoveElement.style.display = 'block';
+        btnAddUpdateElement.textContent = 'Save';
     }
 }
 
-function removeTaskEventHandler() {
-    const columnName = taskForm.dataset.columnName;
-    console.log(columnName, taskForm.dataset.taskid);
+function btnAddUpdateClickHandler(event: any) {
+    const executorId = executorElement.value;
 
-    const taskIndex = tasks[columnName].findIndex(c => c.id === Number(taskForm.dataset.taskid));
-    console.log(taskIndex);
-    tasks[columnName].splice(taskIndex, 1);
+    const formData = new FormData(taskFormElement);
+    const columnName = taskFormElement.dataset.columnName;
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
+    const executor = getExecutorById(Number(executorId))
 
-    if (window.confirm('Sure?')) {
-        refresh();
+    if (!checkInputHandler()) {
+        event.stopPropagation();
+        event.preventDefault();
+        return;
+    }
+
+    if (taskFormElement.dataset.mode === Mode.Add) {
+        addTask(columnName,
+            new Task({
+                title: title,
+                description: description,
+                executor: executor
+            }));
+    }
+
+    if (taskFormElement.dataset.mode === Mode.Edit) {
+        const editedTask = getTaskById(columnName, Number(taskFormElement.dataset.taskid))
+        editedTask.title = title;
+        editedTask.description = description;
+        editedTask.executor = executor;
+    }
+
+    cleanTaskForm();
+
+    refresh();
+}
+
+function btnRemoveClickHandler() {
+    if (!window.confirm('Sure?')) {
+        return;
+    }
+
+    const columnName = taskFormElement.dataset.columnName;
+    removeTask(columnName, Number(taskFormElement.dataset.taskid))
+    cleanTaskForm();
+
+    refresh();
+}
+
+export function checkInputHandler() {
+    const executorId = executorElement.value;
+
+    const formData = new FormData(taskFormElement);
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
+
+    setInvalidWhenVisited(titleElement, !title);
+    setInvalidWhenVisited(descriptionElement, !description);
+    setInvalidWhenVisited(executorElement, !executorId);
+
+    if (!title || !description || !executorId) {
+        invalidFormMessageElement.style.visibility = 'visible';
+        return false;
+    } else {
+        invalidFormMessageElement.style.visibility = 'hidden';
+        return true;
     }
 }
 
-function cleanForm() {
+function cleanTaskForm() {
     titleElement.value = '';
     descriptionElement.value = '';
     executorElement.value = '';
@@ -160,13 +160,18 @@ function cleanForm() {
     descriptionElement.classList.toggle(visitedClass, false);
     executorElement.classList.toggle(visitedClass, false);
 
-    setInvalid(titleElement, false);
-    setInvalid(descriptionElement, false);
+    titleElement.classList.toggle('inputInvalid', false);
+    descriptionElement.classList.toggle('inputInvalid', false);
+    executorElement.classList.toggle('inputInvalid', false);
 
-    invalidFormMessage.style.visibility = 'hidden';
+    invalidFormMessageElement.style.visibility = 'hidden';
+
+    delete taskFormElement.dataset.mode;
+    delete taskFormElement.dataset.taskid;
+    delete taskFormElement.dataset.columnName;
 }
 
-export function renderItemList(): void {
+export function renderTasks() {
     mainWrapperElement.innerHTML =
         Object
             .keys(tasks)
@@ -174,13 +179,13 @@ export function renderItemList(): void {
             .join('');
 }
 
-export function refresh(): void {
-    renderItemList();
+export function refresh() {
+    renderTasks();
     addDragAndDrop();
     saveTasksToStorage();
 }
 
-function setInvalid(element: any, isInvalid: boolean) {
+function setInvalidWhenVisited(element: any, isInvalid: boolean) {
     if (element.classList.contains(visitedClass)) {
         element.classList.toggle('inputInvalid', isInvalid)
     }

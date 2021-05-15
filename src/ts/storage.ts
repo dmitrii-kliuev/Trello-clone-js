@@ -25,6 +25,10 @@ export function initializeTasksFromStorage(): boolean {
     return false;
 }
 
+export function saveExecutorsToStorage() {
+    localStorage.setItem(executorsStorageKey, JSON.stringify(executorList));
+}
+
 export function initializeExecutorsFromStorage(): boolean {
     const executorsJSON = localStorage.getItem(executorsStorageKey)
     if(executorsJSON) {
@@ -35,8 +39,4 @@ export function initializeExecutorsFromStorage(): boolean {
         return true;
     }
     return false;
-}
-
-export function saveExecutorsToStorage() {
-    localStorage.setItem(executorsStorageKey, JSON.stringify(executorList));
 }
