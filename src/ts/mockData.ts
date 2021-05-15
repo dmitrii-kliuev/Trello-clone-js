@@ -1,5 +1,11 @@
 import {Executor, executorList} from "./executor";
 import {addTask, Task} from "./task";
+import {
+    initializeExecutorsFromStorage,
+    initializeTasksFromStorage,
+    saveExecutorsToStorage,
+    saveTasksToStorage
+} from "./storage";
 
 export function fillMockData() {
     fillExecutors();
@@ -7,6 +13,10 @@ export function fillMockData() {
 }
 
 function fillTasks() {
+    if (initializeTasksFromStorage()) {
+        return;
+    }
+
     addTask('in-box', new Task({
         title: 'Lorem ipsum dolor',
         description: 'Lorem ipsum dolor sit amet',
@@ -23,10 +33,18 @@ function fillTasks() {
     addTask('in-progress', new Task({executor: executorList[0], description: mockText, title: 'mega Do 5'}));
     addTask('review', new Task({executor: executorList[1], description: mockText, title: 'mega Do 6'}));
     addTask('done', new Task({executor: executorList[2], description: mockText, title: 'mega Do 7'}));
+
+    saveTasksToStorage();
 }
 
 function fillExecutors() {
+    if (initializeExecutorsFromStorage()) {
+        return;
+    }
+
     executorList.push(new Executor('Dmitrii', 'Kliuev'))
     executorList.push(new Executor('Bob', 'Ford'))
     executorList.push(new Executor('Mike', 'Grunt'))
+
+    saveExecutorsToStorage();
 }

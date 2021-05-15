@@ -1,5 +1,5 @@
-import {addTask, getTaskById, tasks} from "../ts/task";
-import {renderItemList} from "../ts";
+import {tasks} from "../ts/task";
+import {refresh} from "../ts";
 
 export function addDragAndDrop() {
 
@@ -31,7 +31,7 @@ export function addDragAndDrop() {
                 tasks[oldColumn].splice(oldIndex, 1);
                 tasks[newColumn].splice(newIndex, 0, task)
 
-                renderItemList();
+                refresh();
             }
         }).disableSelection();
     });

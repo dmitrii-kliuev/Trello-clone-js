@@ -4,6 +4,7 @@ import {addTask, createTaskColumnElementHtml, getTaskById, Task, tasks} from "./
 import {fillMockData} from "./mockData";
 import {fillExecutorList, getExecutorById} from "./executor";
 import {addDragAndDrop} from "../js/main";
+import {saveTasksToStorage} from "./storage";
 
 const visitedClass = 'visited';
 const addMode = 'addMode';
@@ -76,7 +77,7 @@ function addNewTaskEventHandler(event: any) {
         editedTask.executor = executor;
     }
 
-    renderItemList();
+    refresh();
 }
 
 export function checkInput() {
@@ -146,7 +147,7 @@ function removeTaskEventHandler() {
     tasks[columnName].splice(taskIndex, 1);
 
     if (window.confirm('Sure?')) {
-        renderItemList();
+        refresh();
     }
 }
 
@@ -171,8 +172,12 @@ export function renderItemList(): void {
             .keys(tasks)
             .map(columnName => createTaskColumnElementHtml(columnName))
             .join('');
+}
 
+export function refresh(): void {
+    renderItemList();
     addDragAndDrop();
+    saveTasksToStorage();
 }
 
 function setInvalid(element: any, isInvalid: boolean) {
@@ -183,7 +188,7 @@ function setInvalid(element: any, isInvalid: boolean) {
 
 function initApplication() {
     fillMockData();
-    renderItemList();
+    refresh();
     fillExecutorList();
 }
 

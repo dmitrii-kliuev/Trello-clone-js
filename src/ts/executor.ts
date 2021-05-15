@@ -2,15 +2,13 @@ export class Executor {
     id: number;
     name: string;
     lastName: string;
-
-    public get fullName(): string {
-        return `${this.name} ${this.lastName}`
-    }
+    fullName: string;
 
     constructor(name: string, lastName: string) {
         this.name = name;
         this.lastName = lastName;
         this.id = Date.now() + Math.floor(Math.random() * 470001)
+        this.fullName = `${this.name} ${this.lastName}`;
     }
 }
 
